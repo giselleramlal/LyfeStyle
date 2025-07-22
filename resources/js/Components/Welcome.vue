@@ -5,7 +5,7 @@ import MacrosPieChart from '@/Components/MacrosPieChart.vue';
 import MealForm from '@/Components/MealForm.vue';
 import WaterForm from '@/Components/WaterForm.vue';
 import SleepForm from './SleepForm.vue';
-import ToDoList from './ToDoList.vue';
+import ToDoList from '@/Components/ToDoList.vue';
 
 // These are placeholders – replace with your actual chart or form components
 

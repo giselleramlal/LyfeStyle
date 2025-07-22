@@ -1,3 +1,7 @@
+<?php
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
 use Inertia\Inertia;
 use App\Models\Meal;
 use Illuminate\Http\Request;

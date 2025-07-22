@@ -4,12 +4,13 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-use App\Http\Controllers\DailyLogController;
-use App\Http\Controllers\MealController;
-use App\Http\Controllers\HabitController;
-use App\Http\Controllers\WorkoutController;
-use App\Http\Controllers\SleepLogController;
-use App\Http\Controllers\WaterIntakeController;
+// Use correct namespaces for API controllers
+use App\Http\Controllers\Api\DailyLogController;
+use App\Http\Controllers\Api\MealController;
+use App\Http\Controllers\Api\HabitController;
+use App\Http\Controllers\Api\WorkoutController;
+use App\Http\Controllers\Api\SleepLogController;
+use App\Http\Controllers\Api\WaterIntakeController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
