@@ -2,7 +2,7 @@
 import { router } from '@inertiajs/vue3'
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
 import MacrosPieChart from '@/Components/MacrosPieChart.vue';
-import MealForm from '@/Components/MealForm.vue';
+import MealForm from '@/Components/MealManager.vue';
 import WaterForm from '@/Components/WaterForm.vue';
 import SleepForm from './SleepForm.vue';
 import ToDoList from '@/Components/ToDoList.vue';

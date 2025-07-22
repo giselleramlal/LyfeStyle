@@ -1,39 +1,42 @@
 <template>
     <div class="todo-list">
-        <form @submit.prevent="addTask">
-            <input v-model="newTask" placeholder="Add a new task" />
+        <form @submit.prevent="form.post('/tasks')">
+            <input v-model="form.text" placeholder="Add a new task" />
             <button type="submit">Add</button>
         </form>
+
         <ul>
-            <li v-for="(task, index) in tasks" :key="index">
+            <li v-for="task in tasks" :key="task.id">
                 <label class="todo-item">
-                    <input type="checkbox" v-model="task.completed" />
+                    <input type="checkbox" :checked="task.completed" @change="toggleTask(task)" />
                     <span :class="{ completed: task.completed }">{{ task.text }}</span>
                 </label>
-                <button @click="removeTask(index)">Delete</button>
+                <button @click="deleteTask(task.id)">Delete</button>
             </li>
         </ul>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { useForm } from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3'
 
-const tasks = ref([
-    { text: 'Learn Vue.js', completed: false },
-    { text: 'Build a to-do list', completed: false }
-])
-const newTask = ref('')
+const props = defineProps({
+    tasks: Array
+})
 
-function addTask() {
-    if (newTask.value.trim()) {
-        tasks.value.push({ text: newTask.value, completed: false })
-        newTask.value = ''
-    }
+const form = useForm({
+    text: ''
+})
+
+function toggleTask(task) {
+    router.patch(`/tasks/${task.id}`, {
+        completed: !task.completed
+    })
 }
 
-function removeTask(index) {
-    tasks.value.splice(index, 1)
+function deleteTask(id) {
+    router.delete(`/tasks/${id}`)
 }
 </script>
 
