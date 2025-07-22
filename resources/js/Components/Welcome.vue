@@ -1,12 +1,19 @@
 <script setup>
+import { router } from '@inertiajs/vue3'
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
 import MacrosPieChart from '@/Components/MacrosPieChart.vue';
 import MealForm from '@/Components/MealForm.vue';
 import WaterForm from '@/Components/WaterForm.vue';
 import SleepForm from './SleepForm.vue';
+import ToDoList from './ToDoList.vue';
 
 // These are placeholders – replace with your actual chart or form components
+
+console.log(router.get('/daily-logs'));
+
 </script>
+
+
 
 <template>
     <div>
@@ -14,7 +21,7 @@ import SleepForm from './SleepForm.vue';
         <div class="p-6 lg:p-8 bg-white border-b border-gray-200"> 
 
             <h1 class="mt-8 text-2xl font-medium text-gray-900">
-                Welcome to your Fitness Dashboard!
+                Welcome {{ $page.props.auth.user.name }}!
             </h1>
 
             <p class="mt-6 text-gray-500 leading-relaxed">
@@ -61,6 +68,13 @@ import SleepForm from './SleepForm.vue';
                 </form>
             </div>
 
+            <!-- Add ToDo Section -->
+            <div class="bg-white rounded-lg shadow p-4">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Today's Tasks</h2>
+                <form>
+                    <ToDoList />
+                </form>
+            </div>
         </div>
     </div>
 </template>
