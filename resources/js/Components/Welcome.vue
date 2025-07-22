@@ -1,6 +1,9 @@
 <script setup>
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
 import MacrosPieChart from '@/Components/MacrosPieChart.vue';
+import MealForm from '@/Components/MealForm.vue';
+import WaterForm from '@/Components/WaterForm.vue';
+import SleepForm from './SleepForm.vue';
 
 // These are placeholders – replace with your actual chart or form components
 </script>
@@ -8,8 +11,7 @@ import MacrosPieChart from '@/Components/MacrosPieChart.vue';
 <template>
     <div>
         <!-- Header Section -->
-        <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
-            <ApplicationLogo class="block h-12 w-auto" />
+        <div class="p-6 lg:p-8 bg-white border-b border-gray-200"> 
 
             <h1 class="mt-8 text-2xl font-medium text-gray-900">
                 Welcome to your Fitness Dashboard!
@@ -35,8 +37,7 @@ import MacrosPieChart from '@/Components/MacrosPieChart.vue';
             <div class="bg-white rounded-lg shadow p-4">
                 <h2 class="text-xl font-semibold text-gray-900 mb-4">Add Meals & Calories</h2>
                 <form>
-                    <!-- Replace with actual form components -->
-                    <div class="text-gray-400">[ Meal Form Placeholder ]</div>
+                    <MealForm />
                 </form>
             </div>
 
@@ -46,6 +47,7 @@ import MacrosPieChart from '@/Components/MacrosPieChart.vue';
                 <form>
                     <!-- Replace with actual form components -->
                     <div class="text-gray-400">[ Sleep Form Placeholder ]</div>
+                    <SleepForm />
                 </form>
             </div>
 
@@ -55,6 +57,7 @@ import MacrosPieChart from '@/Components/MacrosPieChart.vue';
                 <form>
                     <!-- Replace with actual form components -->
                     <div class="text-gray-400">[ Water Form Placeholder ]</div>
+                    <WaterForm />
                 </form>
             </div>
 
