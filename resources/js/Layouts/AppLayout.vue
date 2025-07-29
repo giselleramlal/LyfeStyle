@@ -33,7 +33,7 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-gradient-to-b from-green-300 via-white to-green-200 dark:bg-gradient-to-b dark:from-green-700 dark:via-black dark:to-black">
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

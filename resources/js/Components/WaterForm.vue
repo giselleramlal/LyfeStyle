@@ -1,40 +1,29 @@
 <template>
     <div class="water-form">
         <h2>Water Intake Tracker</h2>
-        <div class="glasses">
-            <button
-                v-for="n in maxGlasses"
-                :key="n"
-                :class="{'filled': n <= count}"
-                @click="setCount(n)"
-                aria-label="Glass of water"
-                type="button"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="40"
-                    height="40"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                >
-                    <path
-                        d="M7 2h10l-1 16.5a3 3 0 0 1-6 0L7 2z"
-                        :fill="n <= count ? '#2196f3' : 'none'"
-                    />
-                </svg>
-            </button>
+
+        <div class="glass-display">
+            <img
+                :src="waterGlass"
+                alt="Water Glass"
+                class="water-glass"
+            />
+        </div>
+
+        <div class="counter-controls">
+            <button @click="decrement" :disabled="count <= 0">-</button>
+            <span class="count">{{ count }}</span>
+            <button @click="increment" :disabled="count >= maxGlasses">+</button>
         </div>
 
         <p>You have drunk {{ count }} out of {{ maxGlasses }} glasses today.</p>
 
-        <button @click="save" class="save-btn" :disabled="isSaving" type="button">
-            {{ isSaving ? 'Saving...' : 'Save' }}
-        </button>
-        <button @click="reset" class="reset-btn" type="button">Reset</button>
+        <div class="actions">
+            <button @click="save" class="save-btn" :disabled="isSaving">
+                {{ isSaving ? 'Saving...' : 'Save' }}
+            </button>
+            <button @click="reset" class="reset-btn" type="button">Reset</button>
+        </div>
 
         <p v-if="message" class="message">{{ message }}</p>
     </div>
@@ -42,15 +31,25 @@
 
 <script setup>
 import { ref } from 'vue'
+import waterGlass from '../../icons/water-glass.png'
 
 const maxGlasses = 8
 const count = ref(0)
 const isSaving = ref(false)
 const message = ref('')
 
-function setCount(n) {
-    count.value = n
-    message.value = ''
+function increment() {
+    if (count.value < maxGlasses) {
+        count.value++
+        message.value = ''
+    }
+}
+
+function decrement() {
+    if (count.value > 0) {
+        count.value--
+        message.value = ''
+    }
 }
 
 function reset() {
@@ -71,7 +70,7 @@ async function save() {
             },
             body: JSON.stringify({
                 glasses: count.value,
-                date: new Date().toISOString().slice(0, 10) // e.g., "2025-07-22"
+                date: new Date().toISOString().slice(0, 10)
             })
         })
 
@@ -79,7 +78,7 @@ async function save() {
 
         message.value = 'Water intake saved!'
     } catch (error) {
-        console.log(error);
+        console.log(error)
         message.value = 'Error saving water intake.'
     } finally {
         isSaving.value = false
@@ -93,35 +92,69 @@ async function save() {
     margin: 2rem auto;
     text-align: center;
 }
-.glasses {
+
+.glass-display {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 0.5rem;
     margin: 1rem 0;
 }
-button {
-    background: none;
+
+.water-glass {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.counter-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.counter-controls button {
+    background: #2196f3;
+    color: white;
     border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    border-radius: 4px;
     cursor: pointer;
-    padding: 0;
 }
-.filled svg path {
-    fill: #2196f3 !important;
+
+.counter-controls button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
+
+.count {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.actions {
+    margin-top: 1rem;
+}
+
 .save-btn,
 .reset-btn {
-    margin: 0.5rem 0.5rem 0 0.5rem;
-    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    padding: 0.5rem 1.25rem;
     background: #2196f3;
-    color: #fff;
+    color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
+
 .save-btn[disabled] {
     opacity: 0.6;
     cursor: not-allowed;
 }
+
 .message {
     margin-top: 1rem;
     color: #4caf50;

@@ -43,35 +43,37 @@
         </form>
 
         <!-- Meal List -->
-        <div v-if="meals.length">
+        <div v-if="meals.length" class="meal-list">
             <h2 class="text-lg font-semibold mb-2">Your Meals</h2>
-            <table class="w-full border">
-                <thead class="bg-gray-100">
-                    <tr>
-                        <th class="px-2 py-1 text-left">Type</th>
-                        <th class="px-2 py-1 text-left">Description</th>
-                        <th class="px-2 py-1">Calories</th>
-                        <th class="px-2 py-1">Protein</th>
-                        <th class="px-2 py-1">Carbs</th>
-                        <th class="px-2 py-1">Fat</th>
-                        <th class="px-2 py-1">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="m in meals" :key="m.id" class="border-t">
-                        <td class="px-2 py-1">{{ m.type }}</td>
-                        <td class="px-2 py-1">{{ m.description }}</td>
-                        <td class="px-2 py-1 text-center">{{ m.calories }}</td>
-                        <td class="px-2 py-1 text-center">{{ m.protein }}</td>
-                        <td class="px-2 py-1 text-center">{{ m.carbs }}</td>
-                        <td class="px-2 py-1 text-center">{{ m.fat }}</td>
-                        <td class="px-2 py-1 text-center">
-                            <button @click="editMeal(m)" class="text-blue-600 mr-2">Edit</button>
-                            <button @click="deleteMeal(m.id)" class="text-red-600">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="overflow-x-auto">
+                <table class="min-w-full border">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-2 py-1 text-left">Type</th>
+                            <th class="px-2 py-1 text-left">Description</th>
+                            <th class="px-2 py-1">Calories</th>
+                            <th class="px-2 py-1">Protein</th>
+                            <th class="px-2 py-1">Carbs</th>
+                            <th class="px-2 py-1">Fat</th>
+                            <th class="px-2 py-1">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="m in meals" :key="m.id" class="border-t">
+                            <td class="px-2 py-1">{{ m.type }}</td>
+                            <td class="px-2 py-1">{{ m.description }}</td>
+                            <td class="px-2 py-1 text-center">{{ m.calories }}</td>
+                            <td class="px-2 py-1 text-center">{{ m.protein }}</td>
+                            <td class="px-2 py-1 text-center">{{ m.carbs }}</td>
+                            <td class="px-2 py-1 text-center">{{ m.fat }}</td>
+                            <td class="px-2 py-1 text-center">
+                                <button @click="editMeal(m)" class="text-blue-600 mr-2">Edit</button>
+                                <button @click="deleteMeal(m.id)" class="text-red-600">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </template>
@@ -151,8 +153,10 @@ onMounted(fetchMeals)
 
 <style scoped>
 .meal-manager {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
+    padding: 1rem;
+    overflow: auto;
 }
 table th,
 table td {
