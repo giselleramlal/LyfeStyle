@@ -28,8 +28,15 @@
                 </svg>
             </button>
         </div>
+
         <p>You have drunk {{ count }} out of {{ maxGlasses }} glasses today.</p>
+
+        <button @click="save" class="save-btn" :disabled="isSaving" type="button">
+            {{ isSaving ? 'Saving...' : 'Save' }}
+        </button>
         <button @click="reset" class="reset-btn" type="button">Reset</button>
+
+        <p v-if="message" class="message">{{ message }}</p>
     </div>
 </template>
 
@@ -38,13 +45,45 @@ import { ref } from 'vue'
 
 const maxGlasses = 8
 const count = ref(0)
+const isSaving = ref(false)
+const message = ref('')
 
 function setCount(n) {
     count.value = n
+    message.value = ''
 }
 
 function reset() {
     count.value = 0
+    message.value = ''
+}
+
+async function save() {
+    isSaving.value = true
+    message.value = ''
+
+    try {
+        const response = await fetch('/water-intake', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                glasses: count.value,
+                date: new Date().toISOString().slice(0, 10) // e.g., "2025-07-22"
+            })
+        })
+
+        if (!response.ok) throw new Error('Failed to save.')
+
+        message.value = 'Water intake saved!'
+    } catch (error) {
+        console.log(error);
+        message.value = 'Error saving water intake.'
+    } finally {
+        isSaving.value = false
+    }
 }
 </script>
 
@@ -69,13 +108,22 @@ button {
 .filled svg path {
     fill: #2196f3 !important;
 }
+.save-btn,
 .reset-btn {
-    margin-top: 1rem;
+    margin: 0.5rem 0.5rem 0 0.5rem;
     padding: 0.5rem 1rem;
     background: #2196f3;
     color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+}
+.save-btn[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.message {
+    margin-top: 1rem;
+    color: #4caf50;
 }
 </style>

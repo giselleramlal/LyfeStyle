@@ -9,7 +9,7 @@ import ToDoList from '@/Components/ToDoList.vue';
 
 // These are placeholders – replace with your actual chart or form components
 
-console.log(router.get('/daily-logs'));
+//console.log(router.get('/daily-logs'));
 
 </script>
 
@@ -53,7 +53,6 @@ console.log(router.get('/daily-logs'));
                 <h2 class="text-xl font-semibold text-gray-900 mb-4">Log Sleep</h2>
                 <form>
                     <!-- Replace with actual form components -->
-                    <div class="text-gray-400">[ Sleep Form Placeholder ]</div>
                     <SleepForm />
                 </form>
             </div>
@@ -63,7 +62,6 @@ console.log(router.get('/daily-logs'));
                 <h2 class="text-xl font-semibold text-gray-900 mb-4">Track Water Intake</h2>
                 <form>
                     <!-- Replace with actual form components -->
-                    <div class="text-gray-400">[ Water Form Placeholder ]</div>
                     <WaterForm />
                 </form>
             </div>

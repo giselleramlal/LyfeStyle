@@ -195,6 +195,12 @@ const logout = () => {
                             Dashboard
                         </ResponsiveNavLink>
                     </div>
+                    <div class="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink :href="route('meals.index')" :active="route().current('meals.index')">
+                            Meals
+                        </ResponsiveNavLink>
+                    </div>
+
 
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">

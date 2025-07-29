@@ -14,8 +14,8 @@
             </div>
 
             <div class="mb-4">
-                <InputLabel for="name" value="Meal Description" />
-                <TextInput id="name" v-model="meal.name" type="text" class="mt-1 block w-full" required />
+                <InputLabel for="description" value="Meal Description" />
+                <TextInput id="description" v-model="meal.description" type="text" class="mt-1 block w-full" required />
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -60,7 +60,7 @@
                 <tbody>
                     <tr v-for="m in meals" :key="m.id" class="border-t">
                         <td class="px-2 py-1">{{ m.type }}</td>
-                        <td class="px-2 py-1">{{ m.name }}</td>
+                        <td class="px-2 py-1">{{ m.description }}</td>
                         <td class="px-2 py-1 text-center">{{ m.calories }}</td>
                         <td class="px-2 py-1 text-center">{{ m.protein }}</td>
                         <td class="px-2 py-1 text-center">{{ m.carbs }}</td>
@@ -83,10 +83,15 @@ import TextInput from './TextInput.vue'
 import PrimaryButton from './PrimaryButton.vue'
 
 const meals = ref([])
+
+// Generate today's date as YYYYMMDD
+const todayId = parseInt(new Date().toISOString().slice(0, 10).replace(/-/g, ''))
+
 const meal = ref({
     id: null,
+    daily_log_id: 1,
     type: '',
-    name: '',
+    description: '',
     calories: null,
     protein: null,
     carbs: null,
@@ -112,7 +117,7 @@ async function saveMeal() {
         method,
         headers: {
             'Content-Type': 'application/json',
-            // Remove the CSRF token header for API requests
+            'Accept': 'application/json',
         },
         body: JSON.stringify(meal.value)
     })
@@ -120,8 +125,9 @@ async function saveMeal() {
     await fetchMeals()
     meal.value = {
         id: null,
+        daily_log_id: 1,
         type: '',
-        name: '',
+        description: '',
         calories: null,
         protein: null,
         carbs: null,
@@ -133,7 +139,7 @@ async function deleteMeal(id) {
     await fetch(`/api/meals/${id}`, {
         method: 'DELETE',
         headers: {
-            // No CSRF token needed
+            'Accept': 'application/json',
         },
     })
 

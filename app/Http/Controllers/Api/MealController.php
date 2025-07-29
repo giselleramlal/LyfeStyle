@@ -10,24 +10,33 @@ class MealController extends Controller
 {
     public function index()
     {
-        $meals = Meal::where('user_id', auth()->id())->get();
-        return response()->json($meals);
+        return response()->json(Meal::all()); //filter by user_id eventually
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
             'calories' => 'required|numeric|min:0',
+            'protein' => 'nullable|numeric|min:0',
+            'carbs' => 'nullable|numeric|min:0',
+            'fat' => 'nullable|numeric|min:0',
+            'daily_log_id' => 'required|integer',
         ]);
 
         $meal = Meal::create([
-            ...$validated,
             'user_id' => auth()->id(),
+            'type' => $validated['type'],
+            'description' => $validated['description'],
+            'calories' => $validated['calories'],
+            'protein' => $validated['protein'] ?? null,
+            'carbs' => $validated['carbs'] ?? null,
+            'fat' => $validated['fat'] ?? null,
+            'daily_log_id' => $validated['daily_log_id'],
         ]);
 
         return response()->json([
-            'message' => 'Meal created successfully.',
             'meal' => $meal,
         ], 201);
     }
@@ -37,7 +46,7 @@ class MealController extends Controller
         $meal = Meal::where('user_id', auth()->id())->findOrFail($id);
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255', // changed from name to description
             'calories' => 'required|numeric|min:0',
         ]);
 
