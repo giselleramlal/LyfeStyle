@@ -47,7 +47,9 @@ Route::middleware([
     Route::delete('/daily-logs/{id}', [DailyLogController::class, 'destroy'])->name('daily-logs.destroy');
 
     // Meals
-    Route::resource('meals', MealController::class)->except(['create', 'edit']);
+    Route::resource('meals', App\Http\Controllers\Api\MealController::class);
+    Route::get('meals/stats', [App\Http\Controllers\Api\MealController::class, 'stats'])->name('meals.stats');
+    Route::get('/api/meals', [MealController::class, 'apiIndex']);
 
     // Habits
     Route::resource('habits', HabitController::class)->except(['create', 'edit']);
@@ -56,14 +58,18 @@ Route::middleware([
     Route::resource('workouts', WorkoutController::class)->except(['create', 'edit']);
 
     // Sleep Logs
-    Route::resource('sleep-logs', SleepLogController::class)->except(['create', 'edit']);
+    Route::resource('sleep-logs', SleepLogController::class);
+    Route::get('sleep-logs/stats', [SleepLogController::class, 'stats'])->name('sleep-logs.stats');
 
-    // Water Intake
-    Route::resource('water-intake', WaterIntakeController::class)->except(['create', 'edit']);
+    Route::get('/water-intake', [WaterIntakeController::class, 'index']);
+    Route::get('/water-intake/today', [WaterIntakeController::class, 'getTodaysIntake']);
+    Route::resource('/water-intake', WaterIntakeController::class);
+    Route::put('/water-intake/{id}', [WaterIntakeController::class, 'update'])->name('water-intake.update');
+    Route::delete('/water-intake/{id}', [WaterIntakeController::class, 'destroy']);
 
     // Tasks
     Route::get('/tasks', [TaskController::class, 'index']);
-    Route::post('/tasks', [TaskController::class, 'store']);
-    Route::patch('/tasks/{task}', [TaskController::class, 'update']);
-    Route::delete('/tasks/{task}', [TaskController::class, 'destroy']);
+    Route::resource('/tasks', TaskController::class);
+    Route::patch('/tasks/{id}', [TaskController::class, 'update']);
+    Route::delete('/tasks/{id}', [TaskController::class, 'destroy']);
 });

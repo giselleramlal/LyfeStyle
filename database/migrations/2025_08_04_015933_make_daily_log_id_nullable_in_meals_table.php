@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('meals', function (Blueprint $table) {
-            $table->timestamps();
+            // Make daily_log_id nullable since daily_logs table doesn't exist yet
+            $table->unsignedBigInteger('daily_log_id')->nullable()->change();
         });
     }
 
@@ -22,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('meals', function (Blueprint $table) {
-            $table->dropTimestamps();
+            // Revert back to not nullable
+            $table->unsignedBigInteger('daily_log_id')->nullable(false)->change();
         });
     }
 };

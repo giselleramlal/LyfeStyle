@@ -10,11 +10,18 @@ class WaterIntake extends Model
     use HasFactory;
 
     protected $fillable = [
-        'daily_log_id', 'glasses'
+        'user_id',
+        'glasses',
+        'date'
     ];
 
-    public function dailyLog()
+    protected $casts = [
+        'date' => 'date',
+        'glasses' => 'integer'
+    ];
+
+    public function user()
     {
-        return $this->belongsTo(DailyLog::class);
+        return $this->belongsTo(User::class);
     }
 }

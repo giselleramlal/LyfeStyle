@@ -1,34 +1,95 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\WaterIntake;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class WaterIntakeController extends Controller
 {
     public function index()
     {
-        $entries = WaterIntake::where('user_id', auth()->id())->get();
-        return Inertia::render('WaterIntake/Index', ['waterIntake' => $entries]);
+        $entries = WaterIntake::where('user_id', auth()->id())
+            ->orderBy('date', 'desc')
+            ->get();
+            
+        return response()->json(['water_intake_entries' => $entries]);
+    }
+
+    public function getTodaysIntake(Request $request)
+    {
+        $date = $request->get('date', Carbon::today()->format('Y-m-d'));
+        
+        $waterIntake = WaterIntake::where('user_id', auth()->id())
+            ->where('date', $date)
+            ->first();
+            
+        return response()->json(['water_intake' => $waterIntake]);
     }
 
     public function store(Request $request)
     {
-        WaterIntake::create($request->merge(['user_id' => auth()->id()])->all());
-        return redirect()->back()->with('success', 'Water intake recorded.');
+        $validated = $request->validate([
+            'glasses' => 'required|integer|min:0|max:8',
+            'date' => 'required|date',
+        ]);
+
+        $existing = WaterIntake::where('user_id', auth()->id())
+            ->whereDate('date', $validated['date'])
+            ->first();
+
+        if ($existing) {
+            $existing->update(['glasses' => $validated['glasses']]);
+            return redirect()->back()->with('id', $existing->id); // ✅ Inertia-compatible
+        }
+
+        $new = WaterIntake::create([
+            'user_id' => auth()->id(),
+            'glasses' => $validated['glasses'],
+            'date' => $validated['date'],
+        ]);
+
+        return redirect()->back()->with('id', $new->id); // ✅ Inertia-compatible
     }
+
 
     public function update(Request $request, $id)
     {
-        WaterIntake::where('user_id', auth()->id())->findOrFail($id)->update($request->all());
-        return redirect()->back()->with('success', 'Water intake updated.');
+        $validator = Validator::make($request->all(), [
+            'glasses' => 'required|integer|min:0|max:20',
+            'date' => 'sometimes|date',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => 'Validation failed',
+                'messages' => $validator->errors()
+            ], 422);
+        }
+
+        $waterIntake = WaterIntake::where('user_id', auth()->id())
+            ->findOrFail($id);
+            
+        $waterIntake->update($request->only(['glasses', 'date']));
+
+        return response()->json([
+            'message' => 'Water intake updated successfully',
+            'water_intake' => $waterIntake
+        ]);
     }
 
     public function destroy($id)
     {
-        WaterIntake::where('user_id', auth()->id())->findOrFail($id)->delete();
-        return redirect()->back()->with('success', 'Water intake deleted.');
+        $waterIntake = WaterIntake::where('user_id', auth()->id())
+            ->findOrFail($id);
+            
+        $waterIntake->delete();
+
+        return response()->json([
+            'message' => 'Water intake deleted successfully'
+        ]);
     }
 }

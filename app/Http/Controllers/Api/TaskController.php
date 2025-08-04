@@ -29,13 +29,15 @@ class TaskController extends Controller
             'user_id' => auth()->id(),
             'description' => $request->text,
             'is_completed' => false,
+            'daily_log_id' => $request->daily_log_id ?? now()->format('Ymd'),
         ]);
 
-        return response()->json([
-            'id' => $task->id,
-            'text' => $task->description,
-            'completed' => (bool) $task->is_completed,
-        ]);
+        // return response()->json([
+        //     'id' => $task->id,
+        //     'text' => $task->description,
+        //     'completed' => (bool) $task->is_completed,
+        // ]);
+        return redirect()->back()->with('id', $task->user_id);
     }
 
 
@@ -49,7 +51,7 @@ class TaskController extends Controller
             'is_completed' => $request->completed,
         ]);
 
-        return response()->json(['message' => 'Task updated.']);
+        return redirect()->back()->with('id', $task->user_id);
     }
 
 
@@ -60,6 +62,6 @@ class TaskController extends Controller
         }
 
         $task->delete();
-        return response()->json(['message' => 'Task deleted.']);
+        return redirect()->back()->with('id', $task->user_id);
     }
 }
