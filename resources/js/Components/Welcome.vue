@@ -7,7 +7,7 @@ import ToDoList from '@/Components/ToDoList.vue';
 </script>
 
 <template>
-    <div>
+    <div class="bg-transparent">
         <!-- Header Section -->
         <div class="p-6 lg:p-8 bg-white border-b border-gray-200 rounded-lg shadow">
             <h1 class="mt-8 text-2xl font-medium text-gray-900">
@@ -19,7 +19,7 @@ import ToDoList from '@/Components/ToDoList.vue';
         </div>
 
         <!-- Meal Form Section (Full Row) -->
-        <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 gap-6 p-6 lg:p-8">
+        <div class="bg-transparent grid grid-cols-1 gap-6 p-6 lg:p-8">
             <div class="bg-white rounded-lg shadow p-4">
                 <h2 class="text-xl font-semibold text-gray-900 mb-4">Add Meals & Calories</h2>
                 <form>
@@ -29,7 +29,7 @@ import ToDoList from '@/Components/ToDoList.vue';
         </div>
 
         <!-- Sleep, Water, and Tasks Section (Stack on mobile, row on large screens) -->
-        <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6 lg:px-8 pb-8">
+        <div class="bg-transparent grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6 lg:px-8 pb-8">
             <!-- Sleep -->
             <div class="bg-white rounded-lg shadow p-4">
                 <h2 class="text-xl font-semibold text-gray-900 mb-4">Log Sleep</h2>
@@ -39,20 +39,20 @@ import ToDoList from '@/Components/ToDoList.vue';
             </div>
 
             <!-- Water -->
-            <div class="bg-white rounded-lg shadow p-4">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">Track Water Intake</h2>
-                <form>
-                    <WaterForm />
-                </form>
-            </div>
+        <div class="bg-white rounded-lg shadow p-4">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Track Water Intake</h2>
+            <form>
+                <WaterForm />
+            </form>
+        </div>
 
             <!-- ToDo -->
-            <div class="bg-white rounded-lg shadow p-4">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">Today's Tasks</h2>
-                <form>
-                    <ToDoList />
-                </form>
-            </div>
+        <div class="bg-white rounded-lg shadow p-4">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Today's Tasks</h2>
+            <form>
+                <ToDoList />
+            </form>
+        </div>
         </div>
     </div>
 </template>
