@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import ApplicationMark from '@/Components/ApplicationMark.vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Banner from '@/Components/Banner.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -34,7 +34,7 @@ const logout = () => {
         <Banner />
 
         <div class="min-h-screen bg-gradient-to-b from-blue-300 via-white to-blue-200 dark:bg-gradient-to-b dark:from-blue-700 dark:via-black dark:to-black">
-            <nav class="bg-white border-b border-gray-100">
+            <nav class="bg-white border-b border-gray-100 py-2">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -42,14 +42,16 @@ const logout = () => {
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationMark class="block h-9 w-auto" />
+                                    <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-blue-600 rounded-xl flex items-center justify-center lg:w-16 lg:h-16">
+                                        <ApplicationLogo class="w-8 h-8 lg:w-10 lg:h-10 text-white" />
+                                    </div>
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                    <h2>Dashboard</h2>
                                 </NavLink>
                             </div>
                         </div>
